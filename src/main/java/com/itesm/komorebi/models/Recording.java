@@ -1,6 +1,7 @@
 package com.itesm.komorebi.models;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.*;import org.springframework.data.annotation.Id;
+import com.amazonaws.services.dynamodbv2.datamodeling.*;
+import org.springframework.data.annotation.Id;
 
 import java.util.List;
 import java.util.Map;
@@ -23,17 +24,29 @@ public class Recording {
 
     @DynamoDBHashKey
     public Integer getVideo_id() {
-        return recordingKey.getVideoId();
+        if (recordingKey != null){
+            return recordingKey.getVideoId();
+        }
+        return null;
     }
     public void setVideo_id(Integer video_id) {
+        if (recordingKey == null){
+            recordingKey = new RecordingKey();
+        }
         recordingKey.setVideoId(video_id);
     }
 
     @DynamoDBRangeKey
     public String getTimestamp() {
-        return recordingKey.getTimestamp();
+        if (recordingKey != null){
+            return recordingKey.getTimestamp();
+        }
+        return null;
     }
     public void setTimestamp(String timestamp) {
+        if (recordingKey == null){
+            recordingKey = new RecordingKey();
+        }
         recordingKey.setTimestamp(timestamp);
     }
 
