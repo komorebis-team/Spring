@@ -1,51 +1,47 @@
 package com.itesm.komorebi.models;
 
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBDocument;
+
+import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
+@DynamoDBDocument
 public class Note {
     private String authorId;
-    private Date date;
-    private String content;
-    private String recordingId;
+    private String date;
+    private List<String> tags;
 
-    public Note(){}
-
-    public Note(String authorId, Date date, String content, UUID recordingId) {
+    public Note(){;}
+    public Note(String authorId, String date, List<String> tags) {
         this.authorId = authorId;
         this.date = date;
-        this.content = content;
-        this.recordingId = recordingId.toString();
+        this.tags = tags;
     }
 
-    public String getAuthor() {
+    public String getAuthorId() {
         return authorId;
     }
 
-    public void setAuthor(String author) {
-        this.authorId = author;
+    public void setAuthorId(String authorId) {
+        this.authorId = authorId;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
-    public String getContent() {
-        return content;
+    public List<String> getTags() {
+        return tags;
     }
 
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public UUID getRecordingId() {
-        return UUID.fromString(recordingId);
-    }
-    public void setRecordingId(UUID recordingId) {
-        this.recordingId = recordingId.toString();
+    public void setTags(List<String> tags) {
+        this.tags = tags;
     }
 }

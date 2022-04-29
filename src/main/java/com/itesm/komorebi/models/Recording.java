@@ -17,26 +17,26 @@ public class Recording {
     private Map<String,String> agent;
     private String category;
     private Set<String> tags;
-    private Boolean succesfulOutcome;
+    private Boolean successfulOutcome;
     private String customer;
-    private Map<String,String> notes;
-    private String external_id;
+    private List<Note> notes;
+    private String externalId;
 
-    @DynamoDBHashKey
-    public Integer getVideo_id() {
+    @DynamoDBHashKey(attributeName = "agentId")
+    public String getAgentId() {
         if (recordingKey != null){
-            return recordingKey.getVideoId();
+            return recordingKey.getAgentId();
         }
         return null;
     }
-    public void setVideo_id(Integer video_id) {
+    public void setAgentId(String agentId) {
         if (recordingKey == null){
             recordingKey = new RecordingKey();
         }
-        recordingKey.setVideoId(video_id);
+        recordingKey.setAgentId(agentId);
     }
 
-    @DynamoDBRangeKey
+    @DynamoDBRangeKey(attributeName = "timestamp")
     public String getTimestamp() {
         if (recordingKey != null){
             return recordingKey.getTimestamp();
@@ -50,67 +50,45 @@ public class Recording {
         recordingKey.setTimestamp(timestamp);
     }
 
-    public Integer getDuration() {
-        return duration;
-    }
+    @DynamoDBAttribute(attributeName = "duration")
+    public Integer getDuration() {return duration;}
 
-    public void setDuration(Integer duration) {
-        this.duration = duration;
-    }
+    public void setDuration(Integer duration) {this.duration = duration;}
 
-    public Map<String, String> getAgent() {
-        return agent;
-    }
+    @DynamoDBAttribute(attributeName = "agent")
+    public Map<String, String> getAgent() {return agent;}
 
-    public void setAgent(Map<String, String> agent) {
-        this.agent = agent;
-    }
+    public void setAgent(Map<String, String> agent) {this.agent = agent;}
 
-    public String getCategory() {
-        return category;
-    }
+    @DynamoDBAttribute(attributeName = "category")
+    public String getCategory() {return category;}
 
-    public void setCategory(String category) {
-        this.category = category;
-    }
+    public void setCategory(String category) {this.category = category;}
 
-    public Set<String> getTags() {
-        return tags;
-    }
+    @DynamoDBAttribute(attributeName = "tags")
+    public Set<String> getTags() {return tags;}
 
-    public void setTags(Set<String> tags) {
-        this.tags = tags;
-    }
+    public void setTags(Set<String> tags) {this.tags = tags;}
 
-    public Boolean getSuccesfulOutcome() {
-        return succesfulOutcome;
-    }
+    @DynamoDBAttribute(attributeName = "successfulOutcome")
+    public Boolean getSuccessfulOutcome() {return successfulOutcome;}
 
-    public void setSuccesfulOutcome(Boolean succesfulOutcome) {
-        this.succesfulOutcome = succesfulOutcome;
-    }
+    public void setSuccessfulOutcome(Boolean successfulOutcome) {this.successfulOutcome = successfulOutcome;}
 
-    public String getCustomer() {
-        return customer;
-    }
+    @DynamoDBAttribute(attributeName = "customer")
+    public String getCustomer() {return customer;}
 
-    public void setCustomer(String customer) {
-        this.customer = customer;
-    }
+    public void setCustomer(String customer) {this.customer = customer;}
 
-    public Map<String,String> getNotes() {
-        return notes;
-    }
+    @DynamoDBAttribute(attributeName = "notes")
+    @DynamoDBTypeConverted(converter = NoteConverter.class)
+    public List<Note> getNotes() {return notes;}
 
-    public void setNotes(Map<String,String> notes) {
-        this.notes = notes;
-    }
+    public void setNotes(List<Note> notes) {this.notes = notes;}
 
-    public String getExternal_id() {
-        return external_id;
-    }
+    @DynamoDBAttribute(attributeName = "externalId")
+    public String getExternalId() {return externalId;}
 
-    public void setExternal_id(String external_id) {
-        this.external_id = external_id;
-    }
+    public void setExternalId(String externalId) {this.externalId = externalId;}
+
 }
