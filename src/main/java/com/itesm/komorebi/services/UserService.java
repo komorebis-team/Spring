@@ -1,13 +1,17 @@
 package com.itesm.komorebi.services;
 
+import com.itesm.komorebi.dto.UserDTO;
 import com.itesm.komorebi.models.User;
-import com.itesm.komorebi.repositories.UserRepository;import org.springframework.beans.factory.annotation.Autowired;import org.springframework.stereotype.Service;
+import com.itesm.komorebi.repositories.UserRepository;import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
     enum Roles{
         Agent,
         Supervisor,
@@ -16,6 +20,18 @@ public class UserService {
 
     @Autowired
     UserRepository userRepository;
+
+    @Override
+    public UserDTO loadUserByUsername(String username) throws UsernameNotFoundException {
+        Optional<User> user = userRepository.findById(username);
+        if (user.isEmpty()){
+            return null;
+        }
+        UserDTO newUser = new UserDTO();
+        newUser.setUsername(user.get().getEmail());
+        newUser.setPassword(user.get().getPwdHash());
+        return newUser;
+    }
 
     public boolean existByEmail(String email){
         return userRepository.existsById(email);
