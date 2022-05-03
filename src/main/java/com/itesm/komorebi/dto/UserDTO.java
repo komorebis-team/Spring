@@ -20,6 +20,10 @@ public class UserDTO implements UserDetails {
         this.password = password;
     }
 
+    public String getRole() {return role;}
+
+    public void setRole(String role) {this.role = role;}
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities =
@@ -27,7 +31,7 @@ public class UserDTO implements UserDetails {
         authorities.add(new GrantedAuthority() {
             @Override
             public String getAuthority() {
-                return "ADMIN";
+                return role;
             }
         });
         return authorities;

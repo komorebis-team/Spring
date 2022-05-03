@@ -30,6 +30,7 @@ public class UserService implements UserDetailsService {
         UserDTO newUser = new UserDTO();
         newUser.setUsername(user.get().getEmail());
         newUser.setPassword(user.get().getPwdHash());
+        newUser.setRole(user.get().getRole());
         return newUser;
     }
 
