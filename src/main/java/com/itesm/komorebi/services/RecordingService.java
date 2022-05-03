@@ -28,6 +28,7 @@ public class RecordingService {
     public List<Recording> findAll() {return recordingRepository.findAll();}
     public Optional<Recording> findById(RecordingKey recordingKey){return recordingRepository.findById(recordingKey);}
     public Recording findByTimestamp(String timestamp){return  recordingRepository.findByTimestamp(timestamp);}
+    public List<Recording> findAllByAgentId(String agentId){return recordingRepository.findAllByAgentId(agentId);}
     //Update
     public Optional<Recording> update(Recording recording){
         if (existByAgentId(recording.getAgentId()) && existByTimestamp(recording.getTimestamp())){
@@ -36,7 +37,7 @@ public class RecordingService {
         return Optional.empty();
     }
     //Delete
-    public void delete(Recording recording){
-        recordingRepository.delete(recording);
+    public void deleteById(RecordingKey recordingKey){
+        recordingRepository.deleteById(recordingKey);
     }
 }

@@ -45,13 +45,7 @@ public class RecordingController {
         return new ResponseEntity(updateRecording.get(), HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/delete/")
-    public ResponseEntity deleteRecordingByVideoId(@RequestBody Recording recording){
-        recordingService.delete(recording);
-        return new ResponseEntity("Changes applied", HttpStatus.OK);
-    }
-
-    @GetMapping("/find/")
+    @GetMapping("/find")
     public ResponseEntity<Recording> findRecordingById(@RequestBody RecordingKey recordingKey){
         Optional<Recording> findRecording = recordingService.findById(recordingKey);
         if (findRecording.isEmpty()){
@@ -63,6 +57,17 @@ public class RecordingController {
     @GetMapping("/find/timestamp/{timestamp}")
     public Recording findRecordingByTimestamp(@PathVariable("timestamp") String timestamp){
         return recordingService.findByTimestamp(timestamp);
+    }
+
+    @GetMapping("/find/agentId/{agentId}")
+    public List<Recording> findAllRecordingsByAgentId(@PathVariable("agentId") String agentId){
+        return recordingService.findAllByAgentId(agentId);
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity deleteRecordingByVideoId(@RequestBody RecordingKey recordingKey){
+        recordingService.deleteById(recordingKey);
+        return new ResponseEntity("Changes applied", HttpStatus.OK);
     }
 }
 
