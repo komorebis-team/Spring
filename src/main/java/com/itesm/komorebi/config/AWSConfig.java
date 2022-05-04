@@ -1,21 +1,34 @@
-package com.itesm.komorebi.config;import com.amazonaws.auth.AWSCredentials;import com.amazonaws.auth.BasicAWSCredentials;import com.amazonaws.services.s3.AmazonS3;import org.springframework.beans.factory.annotation.Value;import java.io.InputStream;public class AWSConfig {
+package com.itesm.komorebi.config;
 
-    @Value("${komorebi.app.accessKeyId}")
-    private String accessKeyId;
+import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.AWSStaticCredentialsProvider;
+import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-    @Value("${komorebi.app.secretAccessKey}")
-    private String secretAccessKey;
+@Configuration
+public class AWSConfig {
 
-    @Value("${komorebi.app.bucketName}")
-    private String bucketName;
-
-    @Value("${komorebi.app.region}")
+    @Value("${komorebi.app.s3_region}")
     private String region;
+    @Value("${komorebi.app.aws_client}")
+    private String client;
+    @Value("${komorebi.app.aws_secret}")
+    private String secret;
+
 
     @Bean
-    public AmazonS3 s3(){
+    public AmazonS3 s3() {
         AWSCredentials awsCredentials =
-        new BasicAWSCredentials(accessKeyId, secretAccessKey);
-        return AmazonS3ClientBuilder().standard().withRegion(region).WithCredentials(new AWSStativCredentialsProvider(aw))
+                new BasicAWSCredentials(client, secret);
+        return AmazonS3ClientBuilder
+                .standard()
+                .withRegion(region)
+                .withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
+                .build();
+
     }
 }
