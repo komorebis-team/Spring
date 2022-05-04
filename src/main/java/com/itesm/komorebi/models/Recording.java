@@ -12,6 +12,10 @@ public class Recording {
     @Id
     private RecordingKey recordingKey;
 
+    public RecordingKey recordingKeyGet() {
+        return recordingKey;
+    }
+
     private Integer duration;
     private Map<String,String> agent;
     private String category;

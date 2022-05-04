@@ -1,7 +1,9 @@
 package com.itesm.komorebi.repositories;
 
+import com.itesm.komorebi.dto.RecordingSearch;
 import com.itesm.komorebi.models.Recording;
 import com.itesm.komorebi.models.RecordingKey;
+import com.itesm.komorebi.services.RecordingService;
 import org.socialsignin.spring.data.dynamodb.repository.EnableScan;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
