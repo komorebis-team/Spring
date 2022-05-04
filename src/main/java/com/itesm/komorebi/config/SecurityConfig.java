@@ -43,7 +43,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
             .authorizeRequests().antMatchers("/v1/users/signin").permitAll().and()
             .authorizeRequests().antMatchers("/v1/users/all").hasAuthority("Admin").and()
-            .authorizeRequests().antMatchers("/v1/users/profile").permitAll()
+            .authorizeRequests().antMatchers("/v1/users/profile").permitAll().and()
+            .authorizeRequests().antMatchers("/file-upload").permitAll()
             .anyRequest().authenticated();
     http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }
