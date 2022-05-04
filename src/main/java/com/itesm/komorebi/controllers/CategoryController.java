@@ -35,6 +35,16 @@ public class CategoryController {
         }
         return new ResponseEntity(category.get(), HttpStatus.OK);
     }
+
+    @PostMapping("/add")
+    public ResponseEntity<?> addCategory(@RequestBody Category category){
+        Configuration configuration = configurationService.addCategory(category);
+        if (configuration == null){
+            return new ResponseEntity("Do not exist", HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity(configuration, HttpStatus.CREATED);
+    }
+
     @GetMapping("/config")
     public ResponseEntity<?> getConfig(){
         Optional<Configuration> configuration = configurationService.getConfig();
