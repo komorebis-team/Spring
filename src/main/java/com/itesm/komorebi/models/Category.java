@@ -1,7 +1,10 @@
 package com.itesm.komorebi.models;
 
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBDocument;
+
 import java.util.List;
 
+@DynamoDBDocument
 public class Category {
     private String categoryName;
     private List<String> availableTags;

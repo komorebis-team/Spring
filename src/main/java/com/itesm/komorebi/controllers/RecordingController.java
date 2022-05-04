@@ -55,7 +55,7 @@ public class RecordingController {
     }
 
     @GetMapping("/find/timestamp/{timestamp}")
-    public Recording findRecordingByTimestamp(@PathVariable("timestamp") String timestamp){
+    public List<Recording> findRecordingByTimestamp(@PathVariable("timestamp") String timestamp){
         return recordingService.findByTimestamp(timestamp);
     }
 

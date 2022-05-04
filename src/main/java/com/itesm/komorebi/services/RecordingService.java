@@ -27,7 +27,7 @@ public class RecordingService {
     //Retrieve
     public List<Recording> findAll() {return recordingRepository.findAll();}
     public Optional<Recording> findById(RecordingKey recordingKey){return recordingRepository.findById(recordingKey);}
-    public Recording findByTimestamp(String timestamp){return  recordingRepository.findByTimestamp(timestamp);}
+    public List<Recording> findByTimestamp(String timestamp){return  recordingRepository.findAllByTimestamp(timestamp);}
     public List<Recording> findAllByAgentId(String agentId){return recordingRepository.findAllByAgentId(agentId);}
     //Update
     public Optional<Recording> update(Recording recording){
