@@ -1,7 +1,6 @@
 package com.itesm.komorebi.config;
 
 import com.itesm.komorebi.dto.UserDTO;
-import com.itesm.komorebi.models.User;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

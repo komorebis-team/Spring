@@ -2,7 +2,6 @@ package com.itesm.komorebi.controllers;
 
 import com.itesm.komorebi.models.Category;
 import com.itesm.komorebi.models.Configuration;
-import com.itesm.komorebi.services.CategoryService;
 import com.itesm.komorebi.services.ConfigurationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

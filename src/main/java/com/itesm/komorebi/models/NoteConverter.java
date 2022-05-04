@@ -1,11 +1,8 @@
 package com.itesm.komorebi.models;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTypeConverted;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTypeConverter;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import java.lang.annotation.Annotation;
 import java.util.List;
 
 public class NoteConverter implements DynamoDBTypeConverter<String, List<Note>>  {

@@ -2,7 +2,6 @@ package com.itesm.komorebi.models;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
 import org.springframework.data.annotation.Id;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Set;

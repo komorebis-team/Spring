@@ -1,12 +1,7 @@
 package com.itesm.komorebi.models;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBDocument;
-
-import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
-import java.util.Set;
-import java.util.UUID;
 
 @DynamoDBDocument
 public class Note {
