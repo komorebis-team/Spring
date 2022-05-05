@@ -70,7 +70,7 @@ public class CategoryController {
 
     @Operation(summary = "Add a category", description = "Receive a category and add it to the database")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successful operation", content = {@Content(
+            @ApiResponse(responseCode = "201", description = "Successful operation", content = {@Content(
                     schema = @Schema(implementation = Configuration.class),
                     mediaType = "application/json"
             )}),

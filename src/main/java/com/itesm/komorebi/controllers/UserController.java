@@ -33,8 +33,12 @@ public class UserController {
                     content = @Content)
     })
     @GetMapping("/all")
-    public List<User> findAllUsers(){
-        return userService.findAll();
+    public ResponseEntity<List<User>> findAllUsers(){
+        List<User> userList = userService.findAll();
+        if (userList.isEmpty()){
+            return new ResponseEntity("No content", HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity(userList, HttpStatus.OK);
     }
 
     @Operation(summary = "Return a user", description = "Return a user with the specified email")

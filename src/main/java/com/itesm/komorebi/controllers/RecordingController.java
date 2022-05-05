@@ -1,5 +1,6 @@
 package com.itesm.komorebi.controllers;
 
+import com.itesm.komorebi.dto.RecordingSearch;
 import com.itesm.komorebi.models.Note;
 import com.itesm.komorebi.models.Recording;
 import com.itesm.komorebi.models.RecordingKey;
@@ -41,7 +42,7 @@ public class RecordingController {
     public ResponseEntity<List<Recording>> getAllRecordings() {
         List<Recording> allRecordings = recordingService.findAll();
         if (allRecordings.isEmpty()){
-            return new ResponseEntity("Not found data", HttpStatus.NOT_FOUND);
+            return new ResponseEntity("No content", HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity(allRecordings, HttpStatus.OK);
     }
@@ -70,13 +71,19 @@ public class RecordingController {
             @ApiResponse(responseCode = "200", description = "Successful operation", content = {@Content(
                     array = @ArraySchema(schema = @Schema(implementation = Recording.class)),
                     mediaType = "application/json"
-            )})
+            )}),
+            @ApiResponse(responseCode = "204", description = "Successful operation but there is no content",
+                    content = @Content)
     })
     @GetMapping("/find/timestamp/{timestamp}")
-    public List<Recording> findRecordingByTimestamp(
+    public ResponseEntity<List<Recording>> findRecordingByTimestamp(
             @Parameter(description = "The timestamp to look for", required = true)@PathVariable("timestamp") String timestamp)
     {
-        return recordingService.findByTimestamp(timestamp);
+        List<Recording> recordingList = recordingService.findByTimestamp(timestamp);
+        if (recordingList.isEmpty()){
+            return new ResponseEntity("No content", HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity(recordingList, HttpStatus.OK);
     }
 
     @Operation(summary = "Return a list of recording by agentID", description = "Return a list of recordings that" +
@@ -85,16 +92,45 @@ public class RecordingController {
             @ApiResponse(responseCode = "200", description = "Successful operation", content = {@Content(
                     array = @ArraySchema(schema = @Schema(implementation = Recording.class)),
                     mediaType = "application/json"
-            )})
+            )}),
+            @ApiResponse(responseCode = "204", description = "Successful operation but there is no content",
+                    content = @Content)
     })
     @GetMapping("/find/agentId/{agentId}")
-    public List<Recording> findAllRecordingsByAgentId(@PathVariable("agentId") String agentId){
-        return recordingService.findAllByAgentId(agentId);
+    public ResponseEntity<List<Recording>> findAllRecordingsByAgentId(
+            @Parameter(description = "The agentId to look for", required = true)@PathVariable("agentId") String agentId){
+        List<Recording> recordingList = recordingService.findAllByAgentId(agentId);
+        if (recordingList.isEmpty()){
+            return new ResponseEntity("No content", HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity(recordingList, HttpStatus.OK);
+    }
+
+    @Operation(summary = "Return a list of recording with the given constraints",
+            description = "This method construct internally a custom query to look for all the recording that satisfy" +
+                    " the give search parameters")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successful operation", content = {@Content(
+                    array = @ArraySchema(schema = @Schema(implementation = Recording.class)),
+                    mediaType = "application/json"
+            )}),
+            @ApiResponse(responseCode = "204", description = "Successful operation but there is no content",
+                    content = @Content)
+    })
+    @GetMapping("/search")
+    public ResponseEntity<List<Recording>> searchRecordings(
+            @Parameter(description = "The recording attributes", required = true)
+            @RequestBody RecordingSearch recordingSearch ){
+        List<Recording> recordingList = recordingService.customSearch(recordingSearch);
+        if (recordingList.isEmpty()){
+            return new ResponseEntity("No content", HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity(recordingList, HttpStatus.OK);
     }
 
     @Operation(summary = "Add a recording", description = "Receive a recording and add it to the database")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successful operation", content = {@Content(
+            @ApiResponse(responseCode = "201", description = "Successful operation", content = {@Content(
                     schema = @Schema(implementation = Recording.class),
                     mediaType = "application/json"
             )}),
@@ -112,24 +148,23 @@ public class RecordingController {
         return new ResponseEntity(insertedRecording.get(), HttpStatus.CREATED);
     }
 
-    //This may be a PUT
     @Operation(summary = "Add a note", description = "Receive a note and add it to the registry")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successful operation", content = {@Content(
-                    array = @ArraySchema(schema = @Schema(implementation = Note.class)),
+            @ApiResponse(responseCode = "201", description = "Successful operation", content = {@Content(
+                    schema = @Schema(implementation = Recording.class),
                     mediaType = "application/json"
             )}),
             @ApiResponse(responseCode = "409", description = "The recording do not exist", content = @Content)
     })
-    @PostMapping("/insertNote")
-    public ResponseEntity<List<Note>> insertNote(
+    @PutMapping("/insertNote")
+    public ResponseEntity<Recording> insertNote(
             @Parameter(description = "The note to be inserted", required = true) @RequestBody Recording recording)
     {
         Optional<Recording> optionalRecording = recordingService.insertNotes(recording);
         if (optionalRecording.isEmpty()){
             return new ResponseEntity("Do not exist", HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity(optionalRecording.get().getNotes(), HttpStatus.CREATED);
+        return new ResponseEntity(optionalRecording.get(), HttpStatus.CREATED);
     }
 
     @Operation(summary = "Update a recording", description = "Receive a recording and update it in the database")
@@ -148,12 +183,12 @@ public class RecordingController {
         if (updateRecording.isEmpty()){
             return new ResponseEntity("Do not exist", HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity(updateRecording.get(), HttpStatus.CREATED);
+        return new ResponseEntity(updateRecording.get(), HttpStatus.OK);
     }
 
     @Operation(summary = "Delete a recording", description = "Delete a recording with the specified ID")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successful operation")
+            @ApiResponse(responseCode = "200", description = "Successful operation", content = @Content)
     })
     @DeleteMapping("/delete/{timestamp}/{agentId}")
     public ResponseEntity deleteRecordingByVideoId(
