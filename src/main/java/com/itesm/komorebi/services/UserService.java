@@ -14,7 +14,7 @@ public class UserService implements UserDetailsService {
     enum Roles{
         Agent,
         Supervisor,
-        Manager
+        Admin
     }
 
     @Autowired
@@ -48,7 +48,7 @@ public class UserService implements UserDetailsService {
     public List<User> findAll(){return userRepository.findAll();}
     public List<User> findAllAgents(){return userRepository.findAllByRole(Roles.Agent.toString());}
     public List<User> findAllSupervisors(){return userRepository.findAllByRole(Roles.Supervisor.toString());}
-    public List<User> findAllManagers(){return userRepository.findAllByRole(Roles.Manager.toString());}
+    public List<User> findAllAdmin(){return userRepository.findAllByRole(Roles.Admin.toString());}
     //UPDATE
     public Optional<User> update(User user){
         if (existByEmail(user.getEmail())){

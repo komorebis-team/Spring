@@ -88,7 +88,7 @@ public class UserController {
         return new ResponseEntity(userService.findAllAgents(), HttpStatus.OK);
     }
 
-    @Operation(summary = "Return all the managers", description = "Return all the managers from the database")
+    @Operation(summary = "Return all the administrators", description = "Return all the administrators from the database")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successful operation", content = {@Content(
                     array = @ArraySchema(schema = @Schema(implementation = Recording.class)),
@@ -97,9 +97,9 @@ public class UserController {
             @ApiResponse(responseCode = "204", description = "Successful operation but there is no content",
                     content = @Content)
     })
-    @GetMapping("/managers")
-    public ResponseEntity<List<User>> findAllManagers(){
-        return new ResponseEntity(userService.findAllManagers(), HttpStatus.OK);
+    @GetMapping("/admins")
+    public ResponseEntity<List<User>> findAllAdmin(){
+        return new ResponseEntity(userService.findAllAdmin(), HttpStatus.OK);
     }
 
     @Operation(summary = "Add a user", description = "Add the given user to the database")
