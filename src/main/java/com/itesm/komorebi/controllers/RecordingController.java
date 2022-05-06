@@ -18,6 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.sql.Struct;
 import java.util.List;
 import java.util.Optional;
 
@@ -148,7 +150,8 @@ public class RecordingController {
         return new ResponseEntity(insertedRecording.get(), HttpStatus.CREATED);
     }
 
-    @Operation(summary = "Add a note", description = "Receive a note and add it to the registry")
+    @Operation(summary = "Add a note", description = "Receive the ID ot the recording and the note to then add it " +
+            "to the registry of the DB")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Successful operation", content = {@Content(
                     schema = @Schema(implementation = Recording.class),
@@ -156,11 +159,14 @@ public class RecordingController {
             )}),
             @ApiResponse(responseCode = "409", description = "The recording do not exist", content = @Content)
     })
-    @PutMapping("/insertNote")
+    @PutMapping("/insertNote/{agentId}/{timestamp}")
     public ResponseEntity<Recording> insertNote(
-            @Parameter(description = "The note to be inserted", required = true) @RequestBody Recording recording)
+            @Parameter(description = "The note to be inserted", required = true) @RequestBody Note note,
+            @Parameter(description = "The agentId of the recording", required = true) @PathVariable("agentId") String agentId,
+            @Parameter(description = "The timestamp of the recording", required = true) @PathVariable("timestamp")String timestamp
+            )
     {
-        Optional<Recording> optionalRecording = recordingService.insertNotes(recording);
+        Optional<Recording> optionalRecording = recordingService.insertNotes(note, agentId, timestamp);
         if (optionalRecording.isEmpty()){
             return new ResponseEntity("Do not exist", HttpStatus.NOT_FOUND);
         }

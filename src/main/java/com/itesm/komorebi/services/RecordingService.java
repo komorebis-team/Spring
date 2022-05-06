@@ -7,6 +7,8 @@ import com.itesm.komorebi.models.RecordingKey;
 import com.itesm.komorebi.repositories.RecordingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,13 +40,19 @@ public class RecordingService {
         }
         return Optional.empty();
     }
-    public Optional<Recording> insertNotes(Recording recording){
-        Optional<Recording> optionalRecording = recordingRepository.findById(recording.recordingKeyGet());
+    public Optional<Recording> insertNotes(Note note, String agentId, String timestamp){
+        RecordingKey recordingKey = new RecordingKey();
+        recordingKey.setAgentId(agentId);
+        recordingKey.setTimestamp(timestamp);
+        Optional<Recording> optionalRecording = recordingRepository.findById(recordingKey);
         if (optionalRecording.isEmpty()){
             return Optional.empty();
         }
-        List<Note> notes = recording.getNotes();
-        notes.addAll(optionalRecording.get().getNotes());
+        List<Note> notes = optionalRecording.get().getNotes();
+        if (notes == null){
+            notes = new ArrayList<Note>();
+        }
+        notes.add(note);
         optionalRecording.get().setNotes(notes);
         return update(optionalRecording.get());
     }
