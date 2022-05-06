@@ -1,6 +1,7 @@
 package com.itesm.komorebi.controllers;
 
 import com.itesm.komorebi.models.Recording;
+import com.itesm.komorebi.models.RecordingKey;
 import com.itesm.komorebi.models.User;
 import com.itesm.komorebi.services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -138,5 +139,16 @@ public class UserController {
             return new ResponseEntity("Does not exist", HttpStatus.CONFLICT);
         }
         return new ResponseEntity(updatePersonnel.get(), HttpStatus.CREATED);
+    }
+
+    @Operation(summary = "Delete a user", description = "Delete a user with the specified ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successful operation", content = @Content)
+    })
+    @DeleteMapping("/delete/{email}")
+    public ResponseEntity deleteUser(
+            @Parameter(description = "The email of the user", required = true) @PathVariable("email") String email){
+       userService.deleteUser(email);
+        return new ResponseEntity("Changes applied", HttpStatus.OK);
     }
 }

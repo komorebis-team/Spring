@@ -77,7 +77,7 @@ public class CategoryController {
             @ApiResponse(responseCode = "406", description = "The category needs to have associated tags",
                     content = @Content)
     })
-    @PostMapping("/add")
+    @PutMapping("/add")
     public ResponseEntity<?> addCategory(
             @Parameter(description = "The category to insert", required = true) @RequestBody Category category)
     {

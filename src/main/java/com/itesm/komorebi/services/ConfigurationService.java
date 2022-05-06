@@ -66,6 +66,22 @@ public class ConfigurationService {
         return configurationRepository.save(configuration);
     }
 
+    public Configuration changeEncryption(boolean state){
+        Optional<Configuration> configuration = configurationRepository.findById(1);
+        if (configuration.isEmpty()){
+            return null;
+        }
+        configuration.get().setEncryption(state);
+        return update(configuration.get());
+    }
+    public Configuration changeSharing(boolean state){
+        Optional<Configuration> configuration = configurationRepository.findById(1);
+        if (configuration.isEmpty()){
+            return null;
+        }
+        configuration.get().setAllowSharing(state);
+        return update(configuration.get());
+    }
     public Configuration addCategory(Category category){
         Optional<Configuration> configuration = configurationRepository.findById(1);
         if (configuration.isEmpty()){

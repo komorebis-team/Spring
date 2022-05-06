@@ -39,7 +39,7 @@ public class TagController {
             )}),
             @ApiResponse(responseCode = "404", description = "The configuration data cannot be found", content = @Content)
     })
-    @PostMapping("/add")
+    @PutMapping("/add")
     public ResponseEntity<?> addTag(@Parameter(description = "The tag to insert", required = true) @RequestBody Tag tag)
     {
         Configuration configuration = configurationService.addTag(tag.getCategoryName(), tag.getName());

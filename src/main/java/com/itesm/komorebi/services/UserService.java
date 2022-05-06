@@ -57,4 +57,5 @@ public class UserService implements UserDetailsService {
         return Optional.empty();
     }
     //DELETE
+    public void deleteUser(String email){userRepository.deleteByEmail(email);}
 }
