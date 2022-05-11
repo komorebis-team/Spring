@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @EnableDynamoDBRepositories(basePackages = "com.itesm.komorebi.repositories")
 public class DynamoConfig {
-    
+
 
     @Value("${amazon.dynamodb.endpoint}")
     private String amazonDynamoDBEndpoint;
@@ -39,5 +39,5 @@ public class DynamoConfig {
         return new BasicAWSCredentials(
                 amazonAWSAccessKey, amazonAWSSecretKey);
     }
-    */
+
 }
