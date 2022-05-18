@@ -14,9 +14,9 @@ public class AWSConfig {
 
     @Value("${komorebi.app.s3_region}")
     private String region;
-    @Value("${komorebi.app.aws_client}")
+    @Value("${amazon.aws.accesskey}")
     private String client;
-    @Value("${komorebi.app.aws_secret}")
+    @Value("${amazon.aws.secretkey}")
     private String secret;
 
 

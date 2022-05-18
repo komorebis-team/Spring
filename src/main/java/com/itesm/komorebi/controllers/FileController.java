@@ -30,9 +30,11 @@ public class FileController {
     })
     @PostMapping("/file-upload")
     public String fileUpload(
-            @Parameter(description = "The file to be uploaded", required = true) @RequestParam("file") MultipartFile file){
+            @Parameter(description = "The file to be uploaded", required = true) @RequestParam("file") MultipartFile file,
+            @Parameter(description="The video id", required=true) @RequestParam("videoId") String videoId
+    ){
         try {
-            s3Util.upload("amazon-connect-s3-calls","test.pdf",file.getInputStream());
+            s3Util.upload("komorebi-123-video",videoId.concat(".mp4"),file.getInputStream());
         } catch (IOException e) {
             e.printStackTrace();
         }
