@@ -39,7 +39,7 @@ public class LogInController {
                     mediaType = "application/json"
             )})
     })
-    @PostMapping("/login")
+    @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(
             @Parameter(description = "The user credentials", required = true) @RequestBody UserDTO user) {
         Authentication authentication = authenticationManager.authenticate(
